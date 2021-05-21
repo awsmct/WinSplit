@@ -1,7 +1,7 @@
 # WinSplit
- Fast split text files on lines on Windows.
+**Fast split text files on lines on Windows.**
 
-Usage:
+**Usage:**
 Open command promt in folder with WinSplit.exe and write "winsplit.exe" with 5 space-separated arguments.
 1. File name;
 2. Lines in output files;
