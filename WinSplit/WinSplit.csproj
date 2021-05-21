@@ -3,6 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageProjectUrl>https://github.com/awsmct/WinSplit</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/awsmct/WinSplit</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
