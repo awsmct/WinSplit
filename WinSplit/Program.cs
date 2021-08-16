@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ConsoleApp2
@@ -10,41 +11,65 @@ namespace ConsoleApp2
 		{
 			try
 			{
-				if (args.Length != 0)
+				if (args[0] == "--help")
 				{
-					int a = 0, lineCount = 0, fileCount = 0;
-					string fileName, buff, outputFileName, fileAttrib = string.Empty;
-					fileName = args[0];
-					Int32.TryParse(args[1], out lineCount);
-					Int32.TryParse(args[2], out fileCount);
-					outputFileName = args[3];
-					fileAttrib = args[4];
-					StreamReader sr = new StreamReader(fileName);
-
-
-					for (int i = 0; i < fileCount; i++)
-					{
-						fileName = outputFileName + i + fileAttrib;
-						Console.WriteLine("Work with {0}", fileName);
-						FileStream fs = new FileStream(fileName, FileMode.Create);
-						while (a <= lineCount && (buff = sr.ReadLine()) != null)
-						{
-							fs.Write(Encoding.UTF8.GetBytes(buff + "\n"));
-							a++;
-						}
-						a = 0;
-					}
-					Console.WriteLine("Press any key to exite.");
+					string help = "\nWinSplit it's command-line util for the fast split large file on lines.\n" +
+								  "\nFor automatically counting lines use:\nwinsplit.exe <path_to_file> <count of splitted files> <output_name> <output_file_format_with_dot>\n\n" +
+								  "Example:\nwinsplit.exe InputFile.json 12 OutputFile .json\n\n" +
+								  "To use user-defined rows number:\nwinsplit.exe <path_to_file> <count_lines> <count_of_splitted_files> <output_name> <output_file_format_with_dot>\n\n" +
+								  "Example:\nwinsplit.exe InputFile.json 5000 12 OutputFile .json";
+					Console.WriteLine(help);
+				}
+				else if (args.Length == 4)
+				{
+					Splitting(0, args[0], Int32.Parse(args[1]), args[2], args[3], true);
+					Console.WriteLine("Press any key to exit.");
 					Console.ReadKey();
 				}
-				else throw new Exception("Enter the arguments");
+				else if (args.Length == 5)
+				{
+					Splitting(Int32.Parse(args[1]), args[0], Int32.Parse(args[2]), args[3], args[4], false);
+					Console.WriteLine("Press any key to exit.");
+					Console.ReadKey();
+				}
+				else throw new Exception("Enter all arguments");
 
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Error: {0}", ex.ToString());
+				Console.WriteLine("Press any key to exit.");
+				Console.ReadKey();
+			}
+		}
+
+		private static void Splitting(int lineCount, string fileName, int fileCount, string outputFileName, string fileAttrib, bool autoCount)
+		{
+			if (autoCount)
+			{
+				Console.WriteLine("Counting lines in file...");
+				lineCount = File.ReadLines(fileName).Count();
+				Console.WriteLine("Ready, lines in file: {0}", lineCount);
 			}
 
+			StreamReader sr = new StreamReader(fileName);
+
+			Console.WriteLine("Starting splitting file...");
+			for (int i = 0; i < fileCount; i++)
+			{
+				int a = 0;
+				string buff = string.Empty;
+				fileName = outputFileName + i + fileAttrib;
+				Console.WriteLine("Work with {0}", fileName);
+				FileStream fs = new FileStream(fileName, FileMode.Create);
+				while (a <= lineCount / fileCount && (buff = sr.ReadLine()) != null)
+				{
+					fs.Write(Encoding.UTF8.GetBytes(buff + "\n"));
+					a++;
+				}
+				Console.WriteLine("File {0} ready, lines in file: {1}", fileName, a);
+				a = 0;
+			}
 		}
 	}
 }
