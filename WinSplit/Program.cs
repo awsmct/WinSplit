@@ -32,7 +32,7 @@ namespace ConsoleApp2
 					Console.WriteLine("Press any key to exit.");
 					Console.ReadKey();
 				}
-				else throw new Exception("Enter all arguments");
+				else throw new Exception("Enter all arguments correctly or write '--help'");
 
 			}
 			catch (Exception ex)
