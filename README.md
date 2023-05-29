@@ -1,6 +1,9 @@
 # WinSplit
 **Fast split text files on lines on Windows.**
 
+#Requirements
+For launch Microsoft .Net Core Runtime 3.1 required.
+
 # Usage with autocounting:
 Open command promt in folder with WinSplit.exe and write "winsplit.exe" with 5 space-separated arguments.
 1. File name;
