@@ -1,7 +1,7 @@
 # WinSplit
 **Fast split text files on lines on Windows.**
 
-#Requirements
+# Requirements
 For launch Microsoft .Net Core Runtime 3.1 required.
 
 # Usage with autocounting:
